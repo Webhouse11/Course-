@@ -25,6 +25,17 @@ import {
 const SELAR_LINK = "https://selar.com/7k17r76756";
 const WHATSAPP_LINK = "https://wa.me/2348000000000"; // Placeholder, user can update
 
+const PRICES: Record<string, { symbol: string, amount: string }> = {
+  NG: { symbol: "₦", amount: "25,000" },
+  GH: { symbol: "GH₵", amount: "450" },
+  KE: { symbol: "KSh", amount: "4,500" },
+  ZA: { symbol: "R", amount: "650" },
+  US: { symbol: "$", amount: "35" },
+  GB: { symbol: "£", amount: "28" },
+  EU: { symbol: "€", amount: "32" },
+  DEFAULT: { symbol: "$", amount: "35" }
+};
+
 const CTAButton = ({ children, className = "", primary = true }: { children: ReactNode, className?: string, primary?: boolean }) => (
   <motion.a
     href={SELAR_LINK}
@@ -167,6 +178,29 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
 };
 
 export default function App() {
+  const [price, setPrice] = useState(PRICES.NG);
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        const countryCode = data.country_code;
+        if (PRICES[countryCode]) {
+          setPrice(PRICES[countryCode]);
+        } else if (data.continent_code === 'EU') {
+          setPrice(PRICES.EU);
+        } else {
+          setPrice(PRICES.DEFAULT);
+        }
+      } catch (error) {
+        console.error("Error fetching location:", error);
+        setPrice(PRICES.NG); // Fallback to NGN
+      }
+    };
+    fetchLocation();
+  }, []);
+
   return (
     <div className="min-h-screen selection:bg-gold selection:text-premium-dark">
       <RecentSalesPopup />
@@ -200,7 +234,7 @@ export default function App() {
             transition={{ delay: 0.1 }}
             className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Get everything done for you for just <span className="text-white font-bold">₦25,000</span> — no tech skills needed. Even if you're starting from zero.
+            Get everything done for you for just <span className="text-white font-bold">{price.symbol}{price.amount}</span> — no tech skills needed. Even if you're starting from zero.
           </motion.p>
           
           <motion.div
@@ -286,7 +320,7 @@ export default function App() {
             <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0" />
             
             {[
-              { step: "01", title: "Make Payment", desc: "Pay the one-time fee of ₦25,000 securely.", icon: TrendingUp },
+              { step: "01", title: "Make Payment", desc: `Pay the one-time fee of ${price.symbol}${price.amount} securely.`, icon: TrendingUp },
               { step: "02", title: "Download Instructions", desc: "Get the guide on how to send your details.", icon: Download },
               { step: "03", title: "Send Your Idea", desc: "Tell me what you want your course to be about.", icon: Send },
               { step: "04", title: "I Create Your Course", desc: "I structure and design your course as a PDF.", icon: FileText },
@@ -400,7 +434,7 @@ export default function App() {
           >
             <h3 className="text-2xl font-bold text-gold mb-4 uppercase tracking-widest">The All-In-One Package</h3>
             <div className="flex items-center justify-center mb-8">
-              <span className="text-4xl md:text-6xl font-black">₦25,000</span>
+              <span className="text-4xl md:text-6xl font-black">{price.symbol}{price.amount}</span>
               <span className="text-gray-500 ml-3 text-xl">ONLY</span>
             </div>
             
