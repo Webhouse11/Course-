@@ -79,22 +79,22 @@ const SectionTitle = ({ children, subtitle, light = false }: { children: ReactNo
   </div>
 );
 
-const RecentSalesPopup = () => {
-  const notifications = [
-    { name: "Amaka", location: "Enugu, Nigeria", action: "just signed up" },
-    { name: "Kofi", location: "Accra, Ghana", action: "just purchased" },
-    { name: "Sarah", location: "Nairobi, Kenya", action: "just enrolled" },
-    { name: "Ibrahim", location: "Cairo, Egypt", action: "just joined" },
-    { name: "Thabo", location: "Johannesburg, SA", action: "just signed up" },
-    { name: "Mary", location: "Lagos, Nigeria", action: "just purchased" },
-    { name: "James", location: "Abuja, Nigeria", action: "just joined" },
-    { name: "Aisha", location: "Ibadan, Nigeria", action: "just signed up" },
-    { name: "Chinedu", location: "Enugu, Nigeria", action: "just enrolled" },
-    { name: "Bisi", location: "Port Harcourt, Nigeria", action: "just purchased" },
-    { name: "Emeka", location: "Owerri, Nigeria", action: "just joined" },
-    { name: "Fatima", location: "Kano, Nigeria", action: "just signed up" },
-  ];
+const NOTIFICATIONS = [
+  { name: "Amaka", location: "Enugu, Nigeria", action: "just signed up" },
+  { name: "Kofi", location: "Accra, Ghana", action: "just purchased" },
+  { name: "Sarah", location: "Nairobi, Kenya", action: "just enrolled" },
+  { name: "Ibrahim", location: "Cairo, Egypt", action: "just joined" },
+  { name: "Thabo", location: "Johannesburg, SA", action: "just signed up" },
+  { name: "Mary", location: "Lagos, Nigeria", action: "just purchased" },
+  { name: "James", location: "Abuja, Nigeria", action: "just joined" },
+  { name: "Aisha", location: "Ibadan, Nigeria", action: "just signed up" },
+  { name: "Chinedu", location: "Enugu, Nigeria", action: "just enrolled" },
+  { name: "Bisi", location: "Port Harcourt, Nigeria", action: "just purchased" },
+  { name: "Emeka", location: "Owerri, Nigeria", action: "just joined" },
+  { name: "Fatima", location: "Kano, Nigeria", action: "just signed up" },
+];
 
+const RecentSalesPopup = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -104,7 +104,7 @@ const RecentSalesPopup = () => {
     const cycleInterval = setInterval(() => {
       setIsVisible(false);
       setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % notifications.length);
+        setCurrentIndex((prev) => (prev + 1) % NOTIFICATIONS.length);
         setIsVisible(true);
       }, 1000); // Wait for exit animation
     }, 8000); // Show each for 7 seconds + 1 second transition
@@ -113,7 +113,7 @@ const RecentSalesPopup = () => {
       clearTimeout(showTimer);
       clearInterval(cycleInterval);
     };
-  }, [notifications.length]);
+  }, []);
 
   return (
     <AnimatePresence>
@@ -129,10 +129,10 @@ const RecentSalesPopup = () => {
           </div>
           <div className="overflow-hidden">
             <p className="text-sm font-bold text-white truncate">
-              {notifications[currentIndex].name} from {notifications[currentIndex].location}
+              {NOTIFICATIONS[currentIndex].name} from {NOTIFICATIONS[currentIndex].location}
             </p>
             <p className="text-xs text-gold font-medium">
-              {notifications[currentIndex].action}
+              {NOTIFICATIONS[currentIndex].action}
             </p>
           </div>
           <button 
