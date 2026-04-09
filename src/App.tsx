@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 
 const SELAR_LINK = "https://selar.com/7k17r76756";
-const WHATSAPP_LINK = "https://wa.me/2348000000000"; // Placeholder, user can update
+const WHATSAPP_LINK = "https://wa.me/2348060180077";
 
 const PRICES: Record<string, { symbol: string, amount: string }> = {
   NG: { symbol: "₦", amount: "25,000" },
